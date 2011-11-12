@@ -16,7 +16,7 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.db import models
-from django.forms import ModelForm
+#from django.forms import ModelForm
 from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField, USStateField
 from Goalfish.fishes.models import Teacher
 #from django.contrib.contenttypes.models import ContentType
@@ -33,6 +33,11 @@ class Region(models.Model):
     
     def get_absolute_url(self):
         return "/regions/%s" % self.name
+    
+    def notes_clean(self):
+        return self.notes
+    
+    notes_clean.allow_tags = True
     
     class Meta:
         verbose_name = "Geographic Region"
@@ -65,6 +70,11 @@ class SchoolDistrict(models.Model):
     def get_absolute_url(self):
         return "/school_districts/%s" % self.name
     
+    def get_formatted_address(self):
+        return "<p>%s<br/>%s<br/>%s<br/>%s %s %s</p>" % (self.name, self.address1, self.address2, self.city, self.state, str(self.zip) )
+    
+    get_formatted_address.allow_tags = True
+    
     class Meta:
         verbose_name = "School District"
         
@@ -96,4 +106,5 @@ class School(models.Model):
     def get_absolute_url(self):
         return "/schools/%s" % self.name
 
-
+    def get_formatted_address(self):
+        return "<p>%s<br/>%s<br/>%s<br/>%s %s %s</p>" % (self.name, self.address1, self.address2, self.city, self.state, str(self.zip) )
