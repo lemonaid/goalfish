@@ -18,6 +18,8 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
+from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField, USStateField
+from Goalfish.schools.models import School
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, blank=True, related_name="profile")
@@ -26,8 +28,10 @@ class UserProfile(models.Model):
         abstract = True
 
 class Student(UserProfile):
-    #represents the student object within Goalfish.
-    pass
+
+    nickame = models.CharField(max_length=24, null=True, blank=True, help_text="An Optional Nickname you prefer")
+    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
+    
 
 class StudentForm(ModelForm):
     
@@ -35,8 +39,8 @@ class StudentForm(ModelForm):
         model = Student
 
 class Teacher(UserProfile):
-    pass
-
+    
+    
 class TeacherForm(ModelForm):
     
     class Meta:

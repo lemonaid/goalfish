@@ -17,9 +17,19 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
 from django.forms import ModelForm
+from django.contrib.admin.models import User
+from Goalfish.fishes.models import Teacher, Student
+
+class GroupInterest(models.Model):
+    name = models.CharField(max_length=24, unique=True, help_text="Interest Name")
+    notes = models.TextField(blank=True, help_text="Optional Notes")
 
 class Group(models.Model):
-    pass
+    name = models.CharField(max_length=32, unique=True, help_text="Group Name")
+    interest = models.ForeignKey(GroupInterest, help_text="Interest for this Group")
+    members = models.ManyToManyField(Student, help_text="Group Members")
+    is_public = models.BooleanField(help_text="This Group is Public")
+    moderator = models.ForeignKey(User)
                    
 class VirtualClassroom(models.Model):
     pass
