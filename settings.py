@@ -109,4 +109,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'Goalfish.fishes',
+    'Goalfish.goals',
+    'Goalfish.groups',
+    'Goalfish.messaging',
+#    'Goalfish.notifications',
+    'Goalfish.schools',
 )
