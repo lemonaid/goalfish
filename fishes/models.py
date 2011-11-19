@@ -29,42 +29,120 @@ class UserProfile(models.Model):
 
 class Student(UserProfile):
 
-    nickame = models.CharField(max_length=24, null=True, blank=True, help_text="An Optional Nickname you prefer")
     avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
+    favorite_subject = 
+    extra_curricular_activities = 
+    class_year = 
+    school = 
+    address1
+    address2
+    city
+    state 
+    zip
+    twitter
+    facebook
+    sms
+    notes
     
-
 class StudentForm(ModelForm):
+    #full form for profile page
+    
+    class Meta:
+        model = Student
+
+class StudentFormNew(ModelForm):
+    #abbreviated form for new membership
     
     class Meta:
         model = Student
 
 class Teacher(UserProfile):
     
-    
+    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
+    salutation = 
+    subjects_taught = 
+    sponsorships = 
+    grades_taught = 
+    school = 
+    address1
+    address2
+    city
+    state 
+    zip
+    twitter
+    facebook
+    sms
+    website =     
+    notes =
+     
 class TeacherForm(ModelForm):
     
     class Meta:
         model = Teacher
 
-class Mentor(UserProfile):
-    pass
-
-class Mentorform(ModelForm):
-
-    class Meta:
-        model = Mentor
-        
 class Sponsor(UserProfile):
-    pass
+
+    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload", verbose_name="Company Logo")
+    company_name=
+    address1 = 
+    address2 = 
+    city = 
+    state =
+    zip =
+    twitter = 
+    facebook =
+    sms =
+    website =     
+    notes =
+
+    def __unicode__(self):
+        return self.company_name
 
 class SponsorForm(ModelForm):
 
     class Meta:
         model = Sponsor
 
-class Parent(UserProfile):
-    pass
+class Mentor(UserProfile):
+    
+    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
+    expertise = 
+    alma_mater = 
+    professional_certifications = 
+    company = sponsor
+    salutation = 
+    address1
+    address2
+    city
+    state 
+    zip
+    twitter
+    facebook
+    sms
+    website =     
+    notes =
 
+class Mentorform(ModelForm):
+
+    class Meta:
+        model = Mentor
+        
+class Parent(UserProfile):
+
+    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")    
+    salutation = 
+    children = '''FK to Student'''
+    address1
+    address2
+    city
+    state 
+    zip
+    twitter
+    facebook
+    sms
+    website =     
+    notes =
+    
 class ParentForm(ModelForm):
     
     class Meta:
