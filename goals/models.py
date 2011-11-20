@@ -18,8 +18,18 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 from django.db import models
 from django.forms import ModelForm
 
-class AcademicGoal(models.Model):
-    pass
+class StudentAcademicGoal(models.Model):
+    
+    subject = FK to class
+    begin_grade = 
+    ending_grade = 
+    teacher = FK to teacher
+    begin_date = auto_now
+    end_date = 
+    reward = FK to standard reward objects
+    
+class TeacherAcademicGoal(models.Model):
 
-class LifeGoal(models.Model):
-    pass
+    classroom = FK to virtual classroom
+    goal = 
+    reward = 

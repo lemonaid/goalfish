@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+#TODO - Re-factor to be super-set of Django Groups model.
+
 from django.db import models
 from django.forms import ModelForm
 from django.contrib.admin.models import User
