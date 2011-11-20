@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField, USStateField
 from Goalfish.schools.models import School
+from Goalfish.academics import 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, blank=True, related_name="profile")
