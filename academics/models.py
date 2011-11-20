@@ -17,8 +17,20 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
 from django.forms import ModelForm
+from django.contrib.localflavor.us.models import USStateField
 from Goalfish.schools.models import School
 from Goalfish.fishes.models import Student, Teacher
+
+class Colleges(models.Model):
+    
+    name = models.CharField(max_length=64, unique=True, help_text="Your College Name")
+    mascot = models.CharField(max_length=32, help_text="Your College Mascot or Nickname")
+    city = models.CharField(max_length=32, help_text="City of Your College")
+    state = USStateField(help_text="State of Your College")
+    notes = models.TextField(blank=True, help_text="Optional Notes")
+
+    def __unicode__(self):
+        return self.name
 
 class Subject(models.Model):
     
@@ -30,21 +42,37 @@ class Subject(models.Model):
 
 class SchoolYear(models.Model):
     
-    YEAR_CHOICES=(('5','Fifth Grade'),
-                  ('6','Sixth Grade'),
-                  ('7','Seventh Grade'),
-                  ('8','Eighth Grade'),
-                  ('9','Ninth Grade'),
-                  ('10','Tenth Grade'),
-                  ('11','Eleventh Grade'),
-                  ('12','Twelfth Grade')
-                  )
+    YEAR_CHOICES=(('2011','2011'),
+                  ('2012','2012'),
+                  ('2013','2013'),
+                  ('2014','2014'),
+                  ('2015','2015'),
+                  ('2016','2016'),
+                  ('2017','2017'),
+                  ('2018','2018'),
+                  ('2019','2019'),
+                  ('2020','2020'),)
     
     name = models.CharField(choices=YEAR_CHOICES, help_text="Your Grade for this School Year")
     notes = models.TextField(null=True,blank=True, help_text="Optional Notes")
 
     def __unicode__(self):
         return self.name
+
+class Grade(models.Model):
+    
+    GRADE_CHOICES=(('5','Fifth Grade'),
+                   ('6','Sixth Grade'),
+                   ('7','Seventh Grade',),
+                   ('8','Eighth Grade'),
+                   ('9','Ninth Grade'),
+                   ('10','Tenth Grade'),
+                   ('11','Eleventh Grade'),
+                   ('12','Twelfth Grade'),
+                   )
+    
+    name = models.CharField(choices=GRADE_CHOICES, help_text="Your Grade")
+    notes = models.TextField(blank=True, help_text="Optional Notes")
 
 class ScheduledClass(models.Model):
     
@@ -58,3 +86,11 @@ class ScheduledClass(models.Model):
     
     def __unicode__(self):
         return "%s-%s" % (str(self.subject), str(self.teacher))
+    
+class ExtraCurricularActivity(models.Model):
+    
+    name = models.CharField(max_length=24, unique=True, help_text="Name for this Activity")
+    notes = models.TextField(blank=True, help_text="Optional Notes")
+    
+    def __unicode__(self):
+        return self.name
