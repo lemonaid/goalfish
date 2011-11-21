@@ -17,10 +17,11 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
 from django.forms import ModelForm
+from Goalfish.academics.models import Subject
 
-class StudentAcademicGoal(models.Model):
+class StudentSMARTGoal(models.Model):
     
-    subject = FK to class
+    subject = models.ForeignKey(Subject, help_text="Subject this Goal Relates to")
     begin_grade = 
     ending_grade = 
     teacher = FK to teacher

@@ -74,16 +74,28 @@ class Grade(models.Model):
 
 class ScheduledClass(models.Model):
     
-    school_year = models.ForeignKey(SchoolYear, help_text="Year for This School Term")
     subject = models.ForeignKey(Subject, help_text="Subject This Class is In")
     teacher = models.ForeignKey(Teacher, help_text="Teacher Offering This Class")
-    student = models.ForeignKey(Student)
-    date_added = models.DateTimeField(auto_now=True)
-    term_class = models.ManyToManyField(Subject, help_text="The Class(es) Taken This Term")
+    date_created = models.DateTimeField(auto_now=True)
+    created_by = models.CharField(max_length=32)
     notes = models.TextField(blank=True, help_text="Optional Notes")
     
     def __unicode__(self):
         return "%s-%s" % (str(self.subject), str(self.teacher))
+    
+    class Meta:
+        verbose_name = "Class"
+        verbose_name_plural = "Classes"
+
+class Schedule(models.Model):
+    
+    name = models.CharField(max_length=32, help_text="A Name for This Schedule")
+    student = models.ForeignKey(Student)
+    classes = models.ManyToManyField(ScheduledClass, help_text="Classes You are Taking This Semester")
+    schedule_year = models.ForeignKey(SchoolYear, help_text="Year for This Schedule")
+    
+    def __unicode__(self):
+        return "%s-%s" % (self.name, str(self.schedule_year))
     
 class ExtraCurricularActivity(models.Model):
     
@@ -92,3 +104,4 @@ class ExtraCurricularActivity(models.Model):
     
     def __unicode__(self):
         return self.name
+    
