@@ -16,9 +16,7 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.db import models
-from django.forms import ModelForm
 from django.contrib.localflavor.us.models import USStateField
-from Goalfish.schools.models import School
 from Goalfish.fishes.models import Student, Teacher
 
 class Colleges(models.Model):
