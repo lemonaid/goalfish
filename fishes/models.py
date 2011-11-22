@@ -20,15 +20,10 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField, USStateField
 from Goalfish.schools.models import School
-from Goalfish.academics.models import Subject, ExtraCurricularActivity, SchoolYear, Grade, Colleges
+from Goalfish.academics.models import ScheduledClass
+from Goalfish.academics.models import Subject, ExtraCurricularActivity, SchoolYear, Grade, College
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, blank=True, related_name="profile")
-
-    class Meta:
-        abstract = True
-
-class Student(UserProfile):
+class Student(User):
 
     avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
     favorite_subject = models.ForeignKey(Subject, blank=True, help_text="Your Favorite Subject in School (Optional)")
@@ -40,9 +35,10 @@ class Student(UserProfile):
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
     state = USStateField(blank=True, help_text="The State You Live In (Optional)")
     zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
-    twitter = models.CharField(blank=True, unique=True, help_text="Your Twitter Username (Optional)")
-    facebook = models.CharField(blank=True, unique=True, help_text="Your Facebook Username (Optional)")
+    twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
+    facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
+    classes = models.ManyToManyField(ScheduledClass, help_text="Your Classes") 
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
     
     def __unicode__(self):
@@ -64,7 +60,7 @@ class StudentRegisterForm(ModelForm):
         model = Student
         fields = ('username','first_name','last_name','email','password','favorite_subject','school')
     
-class Teacher(UserProfile):
+class Teacher(User):
     
     SALUTATION_CHOICES=(
                     ('Mr.','Mr.'),
@@ -85,10 +81,11 @@ class Teacher(UserProfile):
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
     state = USStateField(blank=True, help_text="The State You Live In (Optional)")
     zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
-    twitter = models.CharField(blank=True, unique=True, help_text="Your Twitter Username (Optional)")
-    facebook = models.CharField(blank=True, unique=True, help_text="Your Facebook Username (Optional)")
+    twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
+    facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
-    website = models.URLField(blank=True, help_text="Your Teacher Website (Optional)")    
+    website = models.URLField(blank=True, help_text="Your Teacher Website (Optional)")     
+    classes = models.ManyToManyField(ScheduledClass, help_text="Your Classes") 
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
     def __unicode__(self):
@@ -102,7 +99,7 @@ class TeacherForm(ModelForm):
     class Meta:
         model = Teacher
 
-class Sponsor(UserProfile):
+class Sponsor(User):
 
     avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload", verbose_name="Company Logo")
     company_name= models.CharField(max_length=32, unique=True, help_text="Your Company Name")
@@ -111,8 +108,8 @@ class Sponsor(UserProfile):
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
     state = USStateField(blank=True, help_text="The State You Live In (Optional)")
     zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
-    twitter = models.CharField(blank=True, unique=True, help_text="Your Twitter Username (Optional)")
-    facebook = models.CharField(blank=True, unique=True, help_text="Your Facebook Username (Optional)")
+    twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
+    facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     website = models.URLField(blank=True, help_text="Your Company Website (Optional)")    
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
@@ -133,7 +130,7 @@ class Expertise(models.Model):
     def __unicode__(self):
         return self.name
 
-class Mentor(UserProfile):
+class Mentor(User):
     
     SALUTATION_CHOICES=(
                     ('Mr.','Mr.'),
@@ -144,7 +141,7 @@ class Mentor(UserProfile):
     
     avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
     expertise = models.ForeignKey(Expertise, help_text="Your Specialty or Area of Expertise")
-    alma_mater = models.ForeignKey(Colleges, blank=True, help_text="College You Attend(ed) - Optional")
+    alma_mater = models.ForeignKey(College, blank=True, help_text="College You Attend(ed) - Optional")
     professional_certifications = models.CharField(max_length=32, blank=True, help_text="Any Professional Certifications You Maintain")
     salutation = models.CharField(max_length=8, choices=SALUTATION_CHOICES, help_text="Your Desired Salutation") 
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
@@ -152,10 +149,10 @@ class Mentor(UserProfile):
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
     state = USStateField(blank=True, help_text="The State You Live In (Optional)")
     zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
-    twitter = models.CharField(blank=True, unique=True, help_text="Your Twitter Username (Optional)")
-    facebook = models.CharField(blank=True, unique=True, help_text="Your Facebook Username (Optional)")
+    twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
+    facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
-    website = models.URLField(blank=True, help_text="Your Website (Optional)")    
+    website = models.URLField(blank=True, help_text="Your Website (Optional)")   
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
 
@@ -164,7 +161,7 @@ class Mentorform(ModelForm):
     class Meta:
         model = Mentor
         
-class Parent(UserProfile):
+class Parent(User):
 
     SALUTATION_CHOICES=(
                     ('Mr.','Mr.'),
@@ -180,8 +177,8 @@ class Parent(UserProfile):
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
     state = USStateField(blank=True, help_text="The State You Live In (Optional)")
     zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
-    twitter = models.CharField(blank=True, unique=True, help_text="Your Twitter Username (Optional)")
-    facebook = models.CharField(blank=True, unique=True, help_text="Your Facebook Username (Optional)")
+    twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
+    facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     website = models.URLField(blank=True, help_text="Your Website (Optional)")    
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")

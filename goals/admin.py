@@ -15,13 +15,22 @@ You should have received a copy of the GNU General Public License
 along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from django.conf.urls.defaults import *
-
 from django.contrib import admin
-admin.autodiscover()
+from Goalfish.goals.models import RewardClass, Reward, AutomaticReward, StudentSMARTGoal
 
-urlpatterns = patterns('',
-    # Example:
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
-)
+class RewardClassAdmin(admin.ModelAdmin):
+    save_on_top = True
+    
+class RewardAdmin(admin.ModelAdmin):
+    save_on_top = True
+    
+class AutomaticRewardAdmin(admin.ModelAdmin):
+    save_on_top = True
+    
+class StudentSMARTGoalAdmin(admin.ModelAdmin):
+    save_on_top = True
+    
+admin.site.register(RewardClass, RewardClassAdmin)
+admin.site.register(Reward, RewardAdmin)
+admin.site.register(AutomaticReward, AutomaticRewardAdmin)
+admin.site.register(StudentSMARTGoal, StudentSMARTGoalAdmin)

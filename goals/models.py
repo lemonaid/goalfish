@@ -16,21 +16,60 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.db import models
-from django.forms import ModelForm
-from Goalfish.academics.models import Subject
+#from django.forms import ModelForm
+from Goalfish.academics.models import ScheduledClass
+
+class RewardClass(models.Model):
+
+    name = models.CharField(max_length=24, unique=True, help_text="Name for Reward Class")
+    notes = models.TextField(blank=True, help_text="Optional Notes")
+
+    def __unicode__(self):
+        return self.name
+
+class Reward(models.Model):
+
+    name = models.CharField(max_length=24, unique=True, help_text="Reward Name")
+    graphic = models.FileField(upload_to="/graphics/goals/", help_text="Graphic used to illustrate Reward")
+    level = models.ForeignKey(RewardClass, help_text="Reward Level / Type")
+    notes = models.TextField(blank=True, help_text="Optional Notes and Description")
+    
+    
+    def __unicode__(self):
+        return self.name
+    
+class AutomaticReward(models.Model):
+    
+    name = models.CharField(max_length=24, unique=True, help_text="Reward Name")
+    graphic = models.FileField(upload_to="/graphics/goals/", help_text="Graphic used to illustrate Reward")
+    condition = models.CharField(max_length=512, help_text="Condition(s) that activate this reward")
+    notes = models.TextField(blank=True, help_text="Optional Notes and Description")   
+
+    def __unicode__(self):
+        return self.name
 
 class StudentSMARTGoal(models.Model):
     
-    subject = models.ForeignKey(Subject, help_text="Subject this Goal Relates to")
-    begin_grade = 
-    ending_grade = 
-    teacher = FK to teacher
-    begin_date = auto_now
-    end_date = 
-    reward = FK to standard reward objects
-    
-class TeacherAcademicGoal(models.Model):
+    GRADE_CHOICES=(
+                   ('A','A'),
+                   ('B','B'),
+                   ('C','C'),
+                   ('D','D'),
+                   ('E','E'),
+                   ('F','F'),
+                   )
 
-    classroom = FK to virtual classroom
-    goal = 
-    reward = 
+    name = models.CharField(max_length=64, help_text="A Name for Your Goal")
+    goal_class = models.ForeignKey(ScheduledClass, help_text="Class this Goal Relates to")
+    begin_grade = models.CharField(max_length=1, choices=GRADE_CHOICES, help_text="The Grade You are Starting With")
+    ending_grade = models.CharField(max_length=1, choices=GRADE_CHOICES, help_text="The Grade You are Going to End With")
+    begin_date = models.DateField(auto_now=False, help_text="When Your Goal Will Start")
+    end_date = models.DateField(auto_now=False, help_text="When Your Goal Will Complete")
+    reward = models.ForeignKey(Reward, help_text="What you will get for Your Reward")
+    
+#class TeacherAcademicGoal(models.Model):
+
+#    name = models.CharField(max_length=64, help_text="Name for this Goal")
+#    classroom = 
+#    goal = 
+#    reward = 

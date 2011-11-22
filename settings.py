@@ -17,6 +17,8 @@ You should have received a copy of the GNU General Public License
 along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+ACTIVE_SCHOOL_YEAR='2012'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
