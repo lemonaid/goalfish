@@ -236,5 +236,4 @@ class Parent(User):
 class ParentForm(ModelForm):
     
     class Meta:
-        model = Parent
-        
+        model = Parent       
