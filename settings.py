@@ -19,6 +19,15 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 
 ACTIVE_SCHOOL_YEAR='2012'
 
+#AUTHENTICATION_BACKENDS=('django.contrib.auth.backends.ModelBackend','Goalfish.backends.GoalFishAuth.MultiModelBackend',)
+AUTHENTICATION_BACKENDS=('Goalfish.backends.GoalFishAuth.MultiModelBackend',)
+
+STUDENT_USER_MODEL='Goalfish.fishes.Student'
+TEACHER_USER_MODEL='Goalfish.fishes.Teacher'
+PARENT_USER_MODEL='Goalfish.fishes.Parent'
+MENTOR_USER_MODEL='Goalfish.fishes.Mentor'
+SPONSOR_USER_MODEL='Goalfish.fishes.Sponsor'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

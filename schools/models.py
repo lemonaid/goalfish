@@ -17,7 +17,7 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
 #from django.forms import ModelForm
-from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField, USStateField
+from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField
 #from django.contrib.contenttypes.models import ContentType
 #from django.contrib.contenttypes import generic
 
@@ -57,8 +57,8 @@ class SchoolDistrict(models.Model):
     address1 = models.CharField(max_length=64, help_text="Address First Line")
     address2 = models.CharField(max_length=64, null=True, blank=True, help_text="Address Second Line (optional)")
     city = models.CharField(max_length=32, help_text="City")
-    state = USStateField(help_text="US State")
-    zip = USPostalCodeField(help_text="ZIP Code")
+    state = USPostalCodeField(help_text="US State")
+    zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
     homepage = models.URLField(null=True, blank=True, help_text="Website for School District")
     notes = models.TextField(null=True,blank=True, help_text="Optional Notes")
     creation_date = models.DateField(auto_now_add=True)
@@ -89,13 +89,13 @@ class School(models.Model):
     district = models.ForeignKey(SchoolDistrict, help_text="School District")
     size = models.ForeignKey(SchoolSize, help_text="Approximate Student Body Size")
     mascot = models.CharField(max_length=32, help_text="School Mascot")
-    mascot_logo = models.FileField(upload_to="/mascots/",help_text="Image for Mascot (jpg/png only)")
+    mascot_logo = models.FileField(blank=True, upload_to="/mascots/",help_text="Image for Mascot (jpg/png only)")
     #primary_contact = models.ForeignKey(Teacher, help_text="Primary Contact for this Disctrict")
     address1 = models.CharField(max_length=64, help_text="Address First Line")
     address2 = models.CharField(max_length=64, null=True, blank=True, help_text="Address Second Line (optional)")
     city = models.CharField(max_length=32, help_text="City")
-    state = USStateField(help_text="US State")
-    zip = USPostalCodeField(help_text="ZIP Code")
+    state = USPostalCodeField(help_text="US State")
+    zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
     notes = models.TextField(null=True,blank=True, help_text="Optional Notes")
     creation_date = models.DateField(auto_now_add=True)
 

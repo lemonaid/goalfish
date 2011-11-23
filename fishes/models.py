@@ -16,15 +16,17 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, UserManager
 from django.forms import ModelForm
-from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField, USStateField
+from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField
 from Goalfish.schools.models import School
 from Goalfish.academics.models import ScheduledClass
 from Goalfish.academics.models import Subject, ExtraCurricularActivity, SchoolYear, Grade, College
+import re
 
 class Student(User):
-
+    
+    #TODO -- fix twitter/faceboook/sms null issues
     avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
     favorite_subject = models.ForeignKey(Subject, blank=True, help_text="Your Favorite Subject in School (Optional)")
     extra_curricular_activities = models.ForeignKey(ExtraCurricularActivity, help_text="Other Things Your Do or are Interested In")
@@ -33,8 +35,8 @@ class Student(User):
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
     address2 = models.CharField(max_length=32, blank=True, help_text="Your Address, Continued (Optional)")
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
-    state = USStateField(blank=True, help_text="The State You Live In (Optional)")
-    zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
+    state = USPostalCodeField(blank=True, help_text="The State You Live In (Optional)")
+    zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
     twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
     facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
@@ -46,6 +48,16 @@ class Student(User):
     
     def get_absolute_url(self):
         return "/students/%s" % self.id
+    
+    objects = UserManager()
+    
+    def save(self):
+        password = ""
+        r = re.compile('sha1\$.*')
+        if not r.match(self.password):
+            password = self.password
+            self.set_password(self.password)
+        User.save(self)
     
 class StudentForm(ModelForm):
     #full form for profile page
@@ -69,7 +81,6 @@ class Teacher(User):
                     ('Dr.','Dr.'),
                     )
 
-    
     avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
     salutation = models.CharField(max_length=8, choices=SALUTATION_CHOICES, help_text="Your Preferred Title") 
     subjects_taught = models.ManyToManyField(Subject, help_text="Subject(s) Currently Taught by You")
@@ -79,8 +90,8 @@ class Teacher(User):
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
     address2 = models.CharField(max_length=32, blank=True, help_text="Your Address, Continued (Optional)")
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
-    state = USStateField(blank=True, help_text="The State You Live In (Optional)")
-    zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
+    state = USPostalCodeField(blank=True, help_text="The State You Live In (Optional)")
+    zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
     twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
     facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
@@ -89,10 +100,20 @@ class Teacher(User):
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
     def __unicode__(self):
-        return "%s %s" % (str(self.salutation), self.id)
+        return "%s %s" % (str(self.salutation), self.last_name)
     
     def get_absolute_url(self):
         return "/teachers/%s" % self.id
+
+    objects = UserManager()
+    
+    def save(self):
+        password = ""
+        r = re.compile('sha1\$.*')
+        if not r.match(self.password):
+            password = self.password
+            self.set_password(self.password)
+        User.save(self)
     
 class TeacherForm(ModelForm):
     
@@ -106,8 +127,8 @@ class Sponsor(User):
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
     address2 = models.CharField(max_length=32, blank=True, help_text="Your Address, Continued (Optional)")
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
-    state = USStateField(blank=True, help_text="The State You Live In (Optional)")
-    zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
+    state = USPostalCodeField(blank=True, help_text="The State You Live In (Optional)")
+    zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
     twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
     facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
@@ -116,6 +137,16 @@ class Sponsor(User):
 
     def __unicode__(self):
         return self.company_name
+
+    objects = UserManager()
+    
+    def save(self):
+        password = ""
+        r = re.compile('sha1\$.*')
+        if not r.match(self.password):
+            password = self.password
+            self.set_password(self.password)
+        User.save(self)
 
 class SponsorForm(ModelForm):
 
@@ -147,15 +178,24 @@ class Mentor(User):
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
     address2 = models.CharField(max_length=32, blank=True, help_text="Your Address, Continued (Optional)")
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
-    state = USStateField(blank=True, help_text="The State You Live In (Optional)")
-    zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
+    state = USPostalCodeField(blank=True, help_text="The State You Live In (Optional)")
+    zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
     twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
     facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     website = models.URLField(blank=True, help_text="Your Website (Optional)")   
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
-
+    objects = UserManager()
+    
+    def save(self):
+        password = ""
+        r = re.compile('sha1\$.*')
+        if not r.match(self.password):
+            password = self.password
+            self.set_password(self.password)
+        User.save(self)
+        
 class Mentorform(ModelForm):
 
     class Meta:
@@ -175,13 +215,23 @@ class Parent(User):
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
     address2 = models.CharField(max_length=32, blank=True, help_text="Your Address, Continued (Optional)")
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
-    state = USStateField(blank=True, help_text="The State You Live In (Optional)")
-    zip = USPostalCodeField(blank=True, help_text="Your ZIP Code (Optional)")
+    state = USPostalCodeField(blank=True, help_text="The State You Live In (Optional)")
+    zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
     twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
     facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     website = models.URLField(blank=True, help_text="Your Website (Optional)")    
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
+
+    objects = UserManager()
+    
+    def save(self):
+        password = ""
+        r = re.compile('sha1\$.*')
+        if not r.match(self.password):
+            password = self.password
+            self.set_password(self.password)
+        User.save(self)
     
 class ParentForm(ModelForm):
     
