@@ -89,7 +89,7 @@ class School(models.Model):
     district = models.ForeignKey(SchoolDistrict, help_text="School District")
     size = models.ForeignKey(SchoolSize, help_text="Approximate Student Body Size")
     mascot = models.CharField(max_length=32, help_text="School Mascot")
-    mascot_logo = models.FileField(blank=True, upload_to="/mascots/",help_text="Image for Mascot (jpg/png only)")
+    mascot_logo = models.FileField(blank=True, upload_to="mascots/",help_text="Image for Mascot (jpg/png only)")
     #primary_contact = models.ForeignKey(Teacher, help_text="Primary Contact for this Disctrict")
     address1 = models.CharField(max_length=64, help_text="Address First Line")
     address2 = models.CharField(max_length=64, null=True, blank=True, help_text="Address Second Line (optional)")

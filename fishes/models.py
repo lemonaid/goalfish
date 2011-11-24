@@ -20,14 +20,14 @@ from django.contrib.auth.models import User, UserManager
 from django.forms import ModelForm
 from django.contrib.localflavor.us.models import PhoneNumberField, USPostalCodeField
 from Goalfish.schools.models import School
-from Goalfish.academics.models import ScheduledClass
-from Goalfish.academics.models import Subject, ExtraCurricularActivity, SchoolYear, Grade, College
+from Goalfish.goals.models import StudentSMARTGoal, TeacherAcademicGoal
+from Goalfish.academics.models import ScheduledClass, Subject, ExtraCurricularActivity, SchoolYear, Grade, College
 import re
 
 class Student(User):
     
     #TODO -- fix twitter/faceboook/sms null issues
-    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
+    avatar = models.FileField(upload_to="avatars/students/", blank=True, help_text="Optional avatar you can upload")
     favorite_subject = models.ForeignKey(Subject, blank=True, help_text="Your Favorite Subject in School (Optional)")
     extra_curricular_activities = models.ForeignKey(ExtraCurricularActivity, help_text="Other Things Your Do or are Interested In")
     class_year = models.ForeignKey(SchoolYear, help_text="The Year you are going to Graduate High School")
@@ -37,10 +37,9 @@ class Student(User):
     city = models.CharField(max_length=32, blank=True, help_text="The City You Live In (Optional)")
     state = USPostalCodeField(blank=True, help_text="The State You Live In (Optional)")
     zip = models.CharField(max_length=10, blank=True, help_text="Your ZIP Code in XXXXX or XXXXX-XXXX Format (Optional)")
-    twitter = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Twitter Username (Optional)")
-    facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
-    sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
-    classes = models.ManyToManyField(ScheduledClass, help_text="Your Classes") 
+    twitter = models.CharField(max_length=64, blank=True, help_text="Your Twitter Username (Optional)")
+    facebook = models.CharField(max_length=64, blank=True, help_text="Your Facebook Username (Optional)")
+    sms = PhoneNumberField(blank=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
     
     def __unicode__(self):
@@ -81,7 +80,7 @@ class Teacher(User):
                     ('Dr.','Dr.'),
                     )
 
-    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
+    avatar = models.FileField(upload_to="avatars/teachers/", blank=True, help_text="Optional avatar you can upload")
     salutation = models.CharField(max_length=8, choices=SALUTATION_CHOICES, help_text="Your Preferred Title") 
     subjects_taught = models.ManyToManyField(Subject, help_text="Subject(s) Currently Taught by You")
     sponsorships = models.ManyToManyField(ExtraCurricularActivity, help_text="Any Other Activities you Participate In")
@@ -98,6 +97,7 @@ class Teacher(User):
     website = models.URLField(blank=True, help_text="Your Teacher Website (Optional)")     
     classes = models.ManyToManyField(ScheduledClass, help_text="Your Classes") 
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
+    goals = models.ForeignKey()
 
     def __unicode__(self):
         return "%s %s" % (str(self.salutation), self.last_name)
@@ -122,7 +122,7 @@ class TeacherForm(ModelForm):
 
 class Sponsor(User):
 
-    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload", verbose_name="Company Logo")
+    avatar = models.FileField(upload_to="avatars/sponsors/", blank=True, help_text="Optional avatar you can upload", verbose_name="Company Logo")
     company_name= models.CharField(max_length=32, unique=True, help_text="Your Company Name")
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
     address2 = models.CharField(max_length=32, blank=True, help_text="Your Address, Continued (Optional)")
@@ -170,7 +170,7 @@ class Mentor(User):
                     ('Dr.','Dr.'),
                     )
     
-    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")
+    avatar = models.FileField(upload_to="avatars/mentors", blank=True, help_text="Optional avatar you can upload")
     expertise = models.ForeignKey(Expertise, help_text="Your Specialty or Area of Expertise")
     alma_mater = models.ForeignKey(College, blank=True, help_text="College You Attend(ed) - Optional")
     professional_certifications = models.CharField(max_length=32, blank=True, help_text="Any Professional Certifications You Maintain")
@@ -210,7 +210,7 @@ class Parent(User):
                     ('Dr.','Dr.'),
                     )
 
-    avatar = models.FileField(upload_to="/avatars/", blank=True, help_text="Optional avatar you can upload")    
+    avatar = models.FileField(upload_to="avatars/parents", blank=True, help_text="Optional avatar you can upload")    
     salutation = models.CharField(max_length=8, choices=SALUTATION_CHOICES, help_text="Your Desired Salutation") 
     address1 = models.CharField(max_length=32, blank=True, help_text="Your Address (Optional)")
     address2 = models.CharField(max_length=32, blank=True, help_text="Your Address, Continued (Optional)")

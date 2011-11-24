@@ -30,7 +30,7 @@ class RewardClass(models.Model):
 class Reward(models.Model):
 
     name = models.CharField(max_length=24, unique=True, help_text="Reward Name")
-    graphic = models.FileField(upload_to="/graphics/goals/", help_text="Graphic used to illustrate Reward")
+    graphic = models.FileField(upload_to="graphics/goals/", help_text="Graphic used to illustrate Reward")
     level = models.ForeignKey(RewardClass, help_text="Reward Level / Type")
     notes = models.TextField(blank=True, help_text="Optional Notes and Description")
     
@@ -41,7 +41,7 @@ class Reward(models.Model):
 class AutomaticReward(models.Model):
     
     name = models.CharField(max_length=24, unique=True, help_text="Reward Name")
-    graphic = models.FileField(upload_to="/graphics/goals/", help_text="Graphic used to illustrate Reward")
+    graphic = models.FileField(upload_to="graphics/goals/automatic/", help_text="Graphic used to illustrate Reward")
     condition = models.CharField(max_length=512, help_text="Condition(s) that activate this reward")
     notes = models.TextField(blank=True, help_text="Optional Notes and Description")   
 
@@ -67,9 +67,9 @@ class StudentSMARTGoal(models.Model):
     end_date = models.DateField(auto_now=False, help_text="When Your Goal Will Complete")
     reward = models.ForeignKey(Reward, help_text="What you will get for Your Reward")
     
-#class TeacherAcademicGoal(models.Model):
+class TeacherAcademicGoal(models.Model):
 
-#    name = models.CharField(max_length=64, help_text="Name for this Goal")
-#    classroom = 
-#    goal = 
-#    reward = 
+    name = models.CharField(max_length=64, help_text="Name for this Goal")
+    classroom = models.ForeignKey(ScheduledClass, help_text="Class for this Goal to Apply")
+    goal = models.TextField(help_text="A Brief Description of the Goal")
+    reward = models.TextField(help_text="A Brief Description of the Reward")
