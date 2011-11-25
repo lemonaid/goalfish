@@ -16,7 +16,7 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.contrib import admin
-from Goalfish.academics.models import College, Subject, SchoolYear, Grade, ScheduledClass, SchoolTerm, ExtraCurricularActivity, ClassTime
+from Goalfish.academics.models import College, Subject, SchoolYear, Grades, SchoolTerm, ClassTime
 
 class CollegeAdmin(admin.ModelAdmin):
     save_on_top = True
@@ -27,7 +27,7 @@ class SubjectAdmin(admin.ModelAdmin):
 class SchoolYearAdmin(admin.ModelAdmin):
     save_on_top = True
     
-class GradeAdmin(admin.ModelAdmin):
+class GradesAdmin(admin.ModelAdmin):
     save_on_top = True
     
 class ScheduledClassAdmin(admin.ModelAdmin):
@@ -45,8 +45,6 @@ class ClassTimeAdmin(admin.ModelAdmin):
 admin.site.register(College, CollegeAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(SchoolYear, SchoolYearAdmin)
-admin.site.register(Grade, GradeAdmin)
-admin.site.register(ScheduledClass, ScheduledClassAdmin)
-admin.site.register(ExtraCurricularActivity, ExtraCurricularActivityAdmin)
+admin.site.register(Grades, GradesAdmin)
 admin.site.register(SchoolTerm, SchoolTermAdmin)
 admin.site.register(ClassTime, ClassTimeAdmin)

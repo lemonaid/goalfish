@@ -127,5 +127,7 @@ INSTALLED_APPS = (
     'Goalfish.notifications',
     'Goalfish.schools',
     'Goalfish.academics',
+    'Goalfish.groups',
+    'Goalfish.rewards',
     'Goalfish.django_extensions',
 )
