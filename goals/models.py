@@ -27,6 +27,10 @@ class SMARTGoal(models.Model):
     begin_date = models.DateField(auto_now=False, help_text="When Your Goal Will Start")
     end_date = models.DateField(auto_now=False, help_text="When Your Goal Will Complete")
     reward = models.ForeignKey(Reward, help_text="A Reward for this Goal")
+    active = models.BooleanField(default=True)
+    
+    def is_active(self):
+            return self.active
     
     def __unicode__(self):
         return self.name
@@ -35,9 +39,12 @@ class TeacherAcademicGoal(models.Model):
 
     name = models.CharField(max_length=64, help_text="Name for this Goal")
     goal = models.TextField(help_text="A Brief Description of the Goal")
-    reward = models.TextField(help_text="A Brief Description of the Reward")
     reward = models.ForeignKey(Reward, help_text="A Reward for this Goal")
-
+    active = models.BooleanField(default=True)
+    
+    def is_active(self):
+            return self.active
+        
     def __unicode__(self):
         return self.name
     
@@ -48,6 +55,18 @@ class AutoGoal(models.Model):
     condition = models.CharField(max_length=512, help_text="Condition(s) that activate this reward")
     notes = models.TextField(blank=True, help_text="Optional Notes and Description")   
     reward = models.ForeignKey(Reward, help_text="A Reward for this Goal")
+    active = models.BooleanField()
+    
+    def is_active(self):
+        return self.active
+
+    def activate(self):
+        self.active = True
+        self.save()
+
+    def deactivate(self):
+        self.active = False
+        self.save()
 
     def __unicode__(self):
         return self.name

@@ -100,6 +100,10 @@ class Teacher(User):
     goals = models.ForeignKey(TeacherAcademicGoal, null=True, blank=True, help_text="Goals You Have Set")     
     classes = models.ForeignKey(Classes, help_text="Your Classes")
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
+    valid_email = models.BooleanField(default=True)
+
+    def has_valid_email(self):
+        return self.valid_email
 
     def __unicode__(self):
         return "%s %s" % (str(self.salutation), self.last_name)

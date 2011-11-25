@@ -18,8 +18,6 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 from django.db import models
 from django.conf import settings
 from Goalfish.academics.models import Subject, ClassTime, SchoolTerm
-#from Goalfish.goals.models import StudentSMARTGoal, TeacherAcademicGoal
-#from Goalfish.fishes.models import Teacher, Student
 from django.contrib.auth.models import Group
 
 class Classes(Group):
@@ -34,7 +32,11 @@ class Classes(Group):
     
     def __unicode__(self):
         return "%s-%s-%s-%s" % (str(self.subject), str(self.class_time), str(self.class_teacher), str(self.school_year))
-    
+ 
+    def has_unregistered_teacher(self):
+        if self.unregistered_teacher:
+            return True
+                
     class Meta:
         verbose_name = "Class"
         verbose_name_plural = "Classes"
