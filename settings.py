@@ -129,5 +129,6 @@ INSTALLED_APPS = (
     'Goalfish.academics',
     'Goalfish.groups',
     'Goalfish.rewards',
+    'Goalfish.sponsorship',
     'Goalfish.django_extensions',
 )

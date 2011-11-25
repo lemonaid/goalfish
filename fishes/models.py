@@ -23,11 +23,11 @@ from Goalfish.schools.models import School
 from Goalfish.goals.models import SMARTGoal, TeacherAcademicGoal
 from Goalfish.academics.models import Subject, College, SchoolYear
 from Goalfish.groups.models import ExtraCurricularActivity, Classes
+from Goalfish.sponsorship.models import SponsoredItem
 import re
 
 class Student(User):
     
-    #TODO -- fix twitter/faceboook/sms null issues
     avatar = models.FileField(upload_to="avatars/students/", blank=True, help_text="Optional avatar you can upload")
     favorite_subject = models.ForeignKey(Subject, blank=True, help_text="Your Favorite Subject in School (Optional)")
     class_year = models.ForeignKey(SchoolYear, help_text="The Year you are going to Graduate High School")
@@ -97,8 +97,8 @@ class Teacher(User):
     facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     website = models.URLField(blank=True, help_text="Your Teacher Website (Optional)")
-    goals = models.ManyToManyField(TeacherAcademicGoal, null=True, blank=True, help_text="Goals You Have Set")     
-    classes = models.ManyToManyField(Classes, help_text="Your Classes")
+    goals = models.ForeignKey(TeacherAcademicGoal, null=True, blank=True, help_text="Goals You Have Set")     
+    classes = models.ForeignKey(Classes, help_text="Your Classes")
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
     def __unicode__(self):
@@ -135,6 +135,7 @@ class Sponsor(User):
     facebook = models.CharField(max_length=64, blank=True, unique=True, help_text="Your Facebook Username (Optional)")
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     website = models.URLField(blank=True, help_text="Your Company Website (Optional)")    
+    items = models.ForeignKey(SponsoredItem, help_text="Sponsored Items to attach to Goals")
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
     def __unicode__(self):

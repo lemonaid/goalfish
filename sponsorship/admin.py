@@ -16,17 +16,13 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.contrib import admin
-from Goalfish.rewards.models import RewardClass, Reward, SponsoredReward
+from Goalfish.sponsorship.models import ItemType, SponsoredItem
 
-class RewardClassAdmin(admin.ModelAdmin):
+class ItemTypeAdmin(admin.ModelAdmin):
     save_on_top = True
     
-class RewardAdmin(admin.ModelAdmin):
+class SponsoredItemAdmin(admin.ModelAdmin):
     save_on_top = True
     
-class SponsoredRewardAdmin(admin.ModelAdmin):
-    save_on_top = True
-    
-admin.site.register(RewardClass, RewardClassAdmin)
-admin.site.register(Reward, RewardAdmin)
-admin.site.register(SponsoredReward, SponsoredRewardAdmin)
+admin.site.register(ItemType, ItemTypeAdmin)
+admin.site.register(SponsoredItem, SponsoredItemAdmin)

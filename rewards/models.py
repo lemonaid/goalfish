@@ -16,6 +16,7 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.db import models
+from Goalfish.sponsorship.models import SponsoredItem
 
 class RewardClass(models.Model):
 
@@ -35,3 +36,9 @@ class Reward(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+class SponsoredReward(Reward):
+    
+    item = models.ForeignKey(SponsoredItem, help_text="The Sponsored Item for Reward Completion")
+    
+    
