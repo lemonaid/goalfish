@@ -20,27 +20,33 @@ from Goalfish.academics.models import College, Subject, SchoolYear, Grades, Scho
 
 class CollegeAdmin(admin.ModelAdmin):
     save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name','mascot','has_logo','website','location')
     
 class SubjectAdmin(admin.ModelAdmin):
     save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name','admin_notes')
     
 class SchoolYearAdmin(admin.ModelAdmin):
     save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name','admin_notes')   
     
 class GradesAdmin(admin.ModelAdmin):
     save_on_top = True
-    
-class ScheduledClassAdmin(admin.ModelAdmin):
-    save_on_top = True
-    
-class ExtraCurricularActivityAdmin(admin.ModelAdmin):
-    save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name','admin_notes')
     
 class SchoolTermAdmin(admin.ModelAdmin):
     save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name','admin_notes')
     
 class ClassTimeAdmin(admin.ModelAdmin):
     save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name','admin_notes')
     
 admin.site.register(College, CollegeAdmin)
 admin.site.register(Subject, SubjectAdmin)

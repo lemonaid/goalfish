@@ -16,6 +16,7 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.db import models
+from Goalfish.fishes.models import Sponsor
 
 class ItemType(models.Model):
     
@@ -28,6 +29,7 @@ class ItemType(models.Model):
 class SponsoredItem(models.Model):
 
     name = models.CharField(max_length=64, help_text="Name for this Sponsored Item")
+    sponsor = models.ForeignKey(Sponsor, help_text="Sponsor Providing This Item")
     worth = models.IntegerField(max_length=4, help_text="Approximate Worth, in dollars")
     icon = models.FileField(upload_to="items/sponsored/", help_text="an icon to show on Goalfish for this item")
     start_date = models.DateField(auto_now=False, help_text="When the Item Becomes Valid")

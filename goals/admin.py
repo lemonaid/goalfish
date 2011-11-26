@@ -20,12 +20,22 @@ from Goalfish.goals.models import TeacherAcademicGoal, AutoGoal, SMARTGoal
     
 class TeacherAcademicGoalAdmin(admin.ModelAdmin):
     save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name','goal','reward','is_active')
+    search_fields = ('name','goal','reward')
     
 class AutoGoalAdmin(admin.ModelAdmin):
     save_on_top = True
-    
+    actions_on_bottom = True
+    list_display = ('name','reward','is_active')
+    search_fields = ('name', 'reward')
+
 class SMARTGoalAdmin(admin.ModelAdmin):
     save_on_top = True
+    actions_on_bottom = True
+    list_display = ('name', 'begin_date', 'end_date', 'reward','is_active')
+    date_heirarchy = 'begin_date','end_date' 
+    search_fields = ('name', 'begin_date', 'end_date', 'reward')   
     
 admin.site.register(TeacherAcademicGoal, TeacherAcademicGoalAdmin)
 admin.site.register(AutoGoal, AutoGoalAdmin)

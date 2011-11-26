@@ -15,20 +15,19 @@ You should have received a copy of the GNU General Public License
 along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from django.contrib import admin
-from Goalfish.rewards.models import RewardClass, Reward
+from django.db import models
+from Goalfish.fishes.models import Mentor
 
-class RewardClassAdmin(admin.ModelAdmin):
-    save_on_top = True
-    actions_on_bottom = True
-    list_display = ('name', 'admin_notes')
-    search_fields = ('name','notes')
+class Expertise(models.Model):
+
+    experts = models.ManyToManyField(Mentor, help_text="Experts for the Expertise")
+    name = models.CharField(max_length=24, unique=True, help_text="Your Expertise")
+    notes = models.TextField(blank=True, help_text="Optional Notes")
+
+    def admin_notes(self):
+        return self.notes
     
-class RewardAdmin(admin.ModelAdmin):
-    save_on_top = True
-    actions_on_bottom = True
-    list_display = ('name','level', 'graphic_url', 'admin_notes')
-    search_fields = ('name','notes')
-            
-admin.site.register(RewardClass, RewardClassAdmin)
-admin.site.register(Reward, RewardAdmin)
+    admin_notes.allow_tags = True
+    
+    def __unicode__(self):
+        return self.name

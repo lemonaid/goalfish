@@ -16,19 +16,23 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.contrib import admin
-from Goalfish.fishes.models import Student, Teacher, Sponsor, Expertise, Mentor, Parent
+from Goalfish.fishes.models import Student, Teacher, Sponsor, Mentor, Parent
+from Goalfish.sponsorship.models import SponsoredItem
 
 class StudentAdmin(admin.ModelAdmin):
     save_on_top = True
     
 class TeacherAdmin(admin.ModelAdmin):
     save_on_top = True
+
+class SponsoredItemInline(admin.TabularInline):
+    model = SponsoredItem
+    extra = 5
     
 class SponsorAdmin(admin.ModelAdmin):
     save_on_top = True
-    
-class ExpertiseAdmin(admin.ModelAdmin):
-    save_on_top = True
+
+    inlines = [SponsoredItemInline,]
     
 class MentorAdmin(admin.ModelAdmin):
     save_on_top = True
@@ -39,6 +43,5 @@ class ParentAdmin(admin.ModelAdmin):
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Sponsor, SponsorAdmin)
-admin.site.register(Expertise, ExpertiseAdmin)
 admin.site.register(Mentor, MentorAdmin)
 admin.site.register(Parent, ParentAdmin)

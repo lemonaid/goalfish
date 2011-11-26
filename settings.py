@@ -80,7 +80,7 @@ USE_I18N = True
 USE_L10N = True
 
 MEDIA_ROOT = os.path.join(SITE_ROOT, 'media')
-MEDIA_URL = '/media'
+MEDIA_URL = 'http://goalfish.es/media'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -130,5 +130,6 @@ INSTALLED_APPS = (
     'Goalfish.groups',
     'Goalfish.rewards',
     'Goalfish.sponsorship',
+    'Goalfish.mentorship',
 #    'Goalfish.django_extensions',
 )

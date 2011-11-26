@@ -19,15 +19,18 @@ from django.db import models
 from django.conf import settings
 from Goalfish.academics.models import Subject, ClassTime, SchoolTerm
 from django.contrib.auth.models import Group
+from Goalfish.fishes.models import Teacher, Student
 
 class Classes(Group):
 
     school_year = models.CharField(max_length=4, editable=False, default=settings.ACTIVE_SCHOOL_YEAR)
     term = models.ForeignKey(SchoolTerm, help_text="Term for this Class")
     class_time = models.ForeignKey(ClassTime, help_text="Time this Class Happens (1st period, 3rd block, etc.)")
+    teacher = models.ForeignKey(Teacher, null=True, blank=True, related_name="teacher_class", help_text="Registered Teachers")
     unregistered_teacher = models.CharField(max_length=32, null=True, blank=True, help_text="Please Fill In a Teacher's Name if Your Teacher isn't Registered on Goalfish")
     unregistered_teacher_email = models.EmailField(null=True, blank=True, help_text="If You Know It, that Teacher's Email Address")
     subject = models.ForeignKey(Subject, help_text="Subject of This Class")
+    students = models.ManyToManyField(Student, null=True, blank=True, help_text="Students in Class")
     notes = models.TextField(blank=True, help_text="Optional Notes")
     
     def __unicode__(self):
@@ -43,6 +46,8 @@ class Classes(Group):
     
 class ExtraCurricularActivity(Group):
     
+    sponsor = models.ForeignKey(Teacher, null=True, blank=True, related_name="teacher_activity", help_text="Registered Teachers")
+    students = models.ManyToManyField(Student, null=True, blank=True, help_text="Students in Class")    
     notes = models.TextField(blank=True, help_text="Optional Notes")
     
     class Meta:

@@ -16,12 +16,16 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from django.db import models
-from Goalfish.sponsorship.models import SponsoredItem
 
 class RewardClass(models.Model):
 
     name = models.CharField(max_length=24, unique=True, help_text="Name for Reward Class")
     notes = models.TextField(blank=True, help_text="Optional Notes")
+    
+    def admin_notes(self):
+        return self.notes
+    
+    admin_notes.allow_tags = True
 
     def __unicode__(self):
         return self.name
@@ -29,16 +33,19 @@ class RewardClass(models.Model):
 class Reward(models.Model):
 
     name = models.CharField(max_length=24, unique=True, help_text="Reward Name")
-    graphic = models.FileField(upload_to="graphics/goals/", help_text="Graphic used to illustrate Reward")
+    graphic = models.ImageField(upload_to="graphics/goals/", help_text="Graphic used to illustrate Reward")
     level = models.ForeignKey(RewardClass, help_text="Reward Level / Type")
     notes = models.TextField(blank=True, help_text="Optional Notes and Description")
     
+    def graphic_url(self):
+        return "<a href='%s'>%s</a>" % (self.graphic.url, self.graphic.url)
+    
+    graphic_url.allow_tags = True
+    
+    def admin_notes(self):
+        return self.notes
+    
+    admin_notes.allow_tags = True        
     
     def __unicode__(self):
         return self.name
-    
-class SponsoredReward(Reward):
-    
-    item = models.ForeignKey(SponsoredItem, help_text="The Sponsored Item for Reward Completion")
-    
-    
