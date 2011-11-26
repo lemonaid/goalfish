@@ -24,6 +24,9 @@ from Goalfish.academics.models import Subject, College, SchoolYear
 import re
 
 class Student(User):
+    '''
+    The Student model represents all information tracked by Goalfish for a registered student. 
+    '''
     
     avatar = models.FileField(upload_to="avatars/students/", blank=True, help_text="Optional avatar you can upload")
     favorite_subject = models.ForeignKey(Subject, blank=True, help_text="Your Favorite Subject in School (Optional)")
@@ -42,12 +45,36 @@ class Student(User):
     def __unicode__(self):
         return self.username
     
+    def formatted_mailing(self):
+        """Provides a properly formatted mailing address"""
+        
+        return "%s\n%s\n%s\n%s,%s %s" % (self.get_full_name(), self.address1, self.address2, self.city, self.state, self.zip)
+
+    def has_valid_mailing(self):
+        """returns True if the student has all of the needed components for a valid mailing address"""
+        if self.address1:
+            if self.city:
+                if self.state:
+                    if self.zip:
+                        return True
+        else:
+            return False
+    
     def get_absolute_url(self):
+        '''
+        the URL referenced to display a user's information
+        '''
         return "/students/%s" % self.id
+    
+    is_superuser = False
+    is_staff = False
     
     objects = UserManager()
     
     def save(self):
+        '''
+        overriding the default save method from User
+        '''
         password = ""
         r = re.compile('sha1\$.*')
         if not r.match(self.password):
@@ -56,19 +83,24 @@ class Student(User):
         User.save(self)
     
 class StudentForm(ModelForm):
-    #full form for profile page
-    
+    '''
+    defines a full-on student form object, with all User and Student model attributes
+    '''    
     class Meta:
         model = Student
 
 class StudentRegisterForm(ModelForm):
-    #abbreviated form for new membership
-    
+    '''
+    an abbreviated form used for quick student registration
+    '''
     class Meta:
         model = Student
         fields = ('username','first_name','last_name','email','password','favorite_subject','school')
     
 class Teacher(User):
+    '''
+    The Teacher model represents all information tracked for a REGISTERED Teacher
+    '''
     
     SALUTATION_CHOICES=(
                     ('Mr.','Mr.'),
@@ -93,18 +125,30 @@ class Teacher(User):
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
     valid_email = models.BooleanField(default=True)
 
+    is_superuser = False
+    is_staff = False
+
     def has_valid_email(self):
+        '''
+        returns whether or not a teacher has a valid email address
+        '''
         return self.valid_email
 
     def __unicode__(self):
         return "%s %s" % (str(self.salutation), self.last_name)
     
     def get_absolute_url(self):
+        '''
+        returns a relative URL for Teachers
+        '''
         return "/teachers/%s" % self.id
 
     objects = UserManager()
     
     def save(self):
+        '''
+        overrides the default save function from User
+        '''
         password = ""
         r = re.compile('sha1\$.*')
         if not r.match(self.password):
@@ -113,11 +157,16 @@ class Teacher(User):
         User.save(self)
     
 class TeacherForm(ModelForm):
-    
+    '''
+    represents a form that presents a full Teacher object.  Used for registration
+    '''
     class Meta:
         model = Teacher
 
 class Sponsor(User):
+    '''
+    The Sponsor model represents members of the community who can provide rewards for students and form relationships with teachers to provide incentives.
+    '''
 
     avatar = models.FileField(upload_to="avatars/sponsors/", blank=True, help_text="Optional avatar you can upload", verbose_name="Company Logo")
     company_name= models.CharField(max_length=32, unique=True, help_text="Your Company Name")
@@ -132,12 +181,18 @@ class Sponsor(User):
     website = models.URLField(blank=True, help_text="Your Company Website (Optional)")
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
+    is_superuser = False
+    is_staff = False
+
     def __unicode__(self):
         return self.company_name
 
     objects = UserManager()
     
     def save(self):
+        '''
+        Overrides the default save function from User
+        '''
         password = ""
         r = re.compile('sha1\$.*')
         if not r.match(self.password):
@@ -146,11 +201,16 @@ class Sponsor(User):
         User.save(self)
 
 class SponsorForm(ModelForm):
-
+    '''
+    Provides a form for Sponsor Registration
+    '''
     class Meta:
         model = Sponsor
 
 class Mentor(User):
+    '''
+    The Mentor object in Goalfish represents outside professionals who can join to help mentor students in their goals and interests
+    '''
     
     SALUTATION_CHOICES=(
                     ('Mr.','Mr.'),
@@ -175,8 +235,14 @@ class Mentor(User):
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
     objects = UserManager()
+
+    is_superuser = False
+    is_staff = False
     
     def save(self):
+        '''
+        Overrides the defaul save function from User
+        '''
         password = ""
         r = re.compile('sha1\$.*')
         if not r.match(self.password):
@@ -185,11 +251,17 @@ class Mentor(User):
         User.save(self)
         
 class Mentorform(ModelForm):
-
+    '''
+    Provides a form for Mentor registration
+    '''
+    
     class Meta:
         model = Mentor
         
 class Parent(User):
+    '''
+    Parents have a relatively limited role in Goalfish, essentially the ability to "morally compass" their children
+    '''
 
     SALUTATION_CHOICES=(
                     ('Mr.','Mr.'),
@@ -212,8 +284,15 @@ class Parent(User):
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
 
     objects = UserManager()
+
+    is_superuser = False
+    is_staff = False
     
     def save(self):
+        '''
+        Overrides the default save function from User
+        '''
+        
         password = ""
         r = re.compile('sha1\$.*')
         if not r.match(self.password):
@@ -222,6 +301,9 @@ class Parent(User):
         User.save(self)
     
 class ParentForm(ModelForm):
+    '''
+    Provides a form for Parent Registration
+    '''
     
     class Meta:
         model = Parent       

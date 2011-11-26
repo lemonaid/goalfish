@@ -1,4 +1,4 @@
-'''
+"""
 This file is part of Goalfish.es.
 
 Goalfish.es is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
-'''
+"""
 
 from django.db import models
 from Goalfish.academics.models import Grades
@@ -22,7 +22,9 @@ from Goalfish.groups.models import Classes
 from Goalfish.fishes.models import Student
 
 class SMARTGoal(models.Model):
-    #A SMART-process based Goal associated with a single Student.
+    """
+    A SMART-process based Goal associated with a single :model:'fishes.Student'.
+    """
     
     name = models.CharField(max_length=64, help_text="A Name for Your Goal")        
     student = models.ForeignKey(Student, related_name="student_goal")
@@ -36,12 +38,15 @@ class SMARTGoal(models.Model):
     verified = models.BooleanField()
     
     def is_active(self):
+        """returns True if a goal is active"""
         return self.active
     
     def is_complete(self):
+        """returns True if a goal is complete"""
         return self.complete
     
     def is_verified(self):
+        """returns true if a goal if verified"""
         return self.verified
     
     def __unicode__(self):
@@ -52,6 +57,9 @@ class SMARTGoal(models.Model):
         verbose_name_plural = "SMART Goals"
     
 class TeacherAcademicGoal(models.Model):
+    """
+    A goal associated with a :model:'groups.Classes' set by a :model:'fishes.Teacher' user.
+    """
 
     name = models.CharField(max_length=64, help_text="Name for this Goal")
     goal = models.TextField(help_text="A Brief Description of the Goal")
@@ -60,7 +68,8 @@ class TeacherAcademicGoal(models.Model):
     active = models.BooleanField(default=True)
     
     def is_active(self):
-            return self.active
+        """Returns True if a Teacher's goal is active"""
+        return self.active
         
     def __unicode__(self):
         return self.name
@@ -70,6 +79,9 @@ class TeacherAcademicGoal(models.Model):
         verbose_name_plural = "Teacher Initiated Goals"
     
 class AutoGoal(models.Model):
+    """
+    A goal automatically rewarded to :model:'fishes.Student' users for attaining certain criteria
+    """
     
     name = models.CharField(max_length=24, unique=True, help_text="Reward Name")
     condition = models.CharField(max_length=512, help_text="Condition(s) that activate this reward")
@@ -79,13 +91,16 @@ class AutoGoal(models.Model):
     active = models.BooleanField()
     
     def is_active(self):
+        """Returns True if the :model:`goals.AutoGoal` is active"""
         return self.active
 
     def activate(self):
+        """Makes the AutoGoal active"""
         self.active = True
         self.save()
 
     def deactivate(self):
+        """Makes the AutoGoal inactive"""
         self.active = False
         self.save()
 

@@ -19,12 +19,17 @@ from django.db import models
 from Goalfish.fishes.models import Mentor
 
 class Expertise(models.Model):
+    """
+    Relates to the :model:`fishes.Mentor` object, providing a manageable list of expertises
+    
+    """
 
     experts = models.ManyToManyField(Mentor, help_text="Experts for the Expertise")
     name = models.CharField(max_length=24, unique=True, help_text="Your Expertise")
     notes = models.TextField(blank=True, help_text="Optional Notes")
 
     def admin_notes(self):
+        """A convention to allow HTML tags in the list_display for the admin control panel"""
         return self.notes
     
     admin_notes.allow_tags = True
