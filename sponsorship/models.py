@@ -26,6 +26,10 @@ class ItemType(models.Model):
     def __unicode__(self):
         return self.name
 
+    class Meta:
+        verbose_name = "Sponsored Item Type"
+        verbose_name_plural = "Sponsored Item Types"
+
 class SponsoredItem(models.Model):
 
     name = models.CharField(max_length=64, help_text="Name for this Sponsored Item")
@@ -44,3 +48,6 @@ class SponsoredItem(models.Model):
     def __unicode__(self):
         return "%s-%s" % (str(self.sponsor), self.name)
 
+    class Meta:
+        verbose_name = "Sponsored Item"
+        verbose_name_plural = "Sponsored Items"

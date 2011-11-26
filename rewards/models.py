@@ -29,6 +29,10 @@ class RewardClass(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Goal Reward Level"
+        verbose_name_plural = "Goal Reward Levels"
 
 class Reward(models.Model):
 
@@ -49,3 +53,7 @@ class Reward(models.Model):
     
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Goal Reward"
+        verbose_name_plural = "Goal Rewards"

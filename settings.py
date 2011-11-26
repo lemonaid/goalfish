@@ -114,6 +114,14 @@ TEMPLATE_DIRS = (
                  os.path.join(SITE_ROOT,'static/templates')
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+                               'django.contrib.auth.context_processors.auth',
+                               'django.contrib.messages.context_processors.messages',
+                               'Goalfish.django_messages.context_processors.inbox',
+)
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,10 +129,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django.contrib.sites',
     'Goalfish.fishes',
     'Goalfish.goals',
-    'Goalfish.messaging',
-    'Goalfish.notifications',
+    'Goalfish.django_messages',
+    'Goalfish.notification',
     'Goalfish.schools',
     'Goalfish.academics',
     'Goalfish.groups',

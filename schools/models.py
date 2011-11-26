@@ -46,7 +46,11 @@ class SchoolDistrictSize(models.Model):
     max_value = models.IntegerField(max_length=5, help_text="upper range for school district size option")
     
     def __unicode__(self): 
-        return "%s - %s" % (str(self.min_value), str(self.max_value)) 
+        return "%s - %s" % (str(self.min_value), str(self.max_value))
+    
+    class Meta:
+        verbose_name = "School District Size"
+        verbose_name_plural = "School District Sizes"
     
 class SchoolDistrict(models.Model):
     name = models.CharField(max_length=32, unique=True, help_text="School District Name")
@@ -82,7 +86,10 @@ class SchoolSize(models.Model):
     max_value = models.IntegerField(max_length=5, help_text="upper range for school size option")
     
     def __unicode__(self): 
-        return "%s - %s" % (str(self.min_value), str(self.max_value)) 
+        return "%s - %s" % (str(self.min_value), str(self.max_value))
+    
+    class Meta:
+        verbose_name = "School Size"
        
 class School(models.Model):
     name = models.CharField(max_length=64, unique=True, help_text="School Name")
@@ -107,3 +114,6 @@ class School(models.Model):
 
     def get_formatted_address(self):
         return "<p>%s<br/>%s<br/>%s<br/>%s %s %s</p>" % (self.name, self.address1, self.address2, self.city, self.state, str(self.zip) )
+    
+    class Meta:
+        verbose_name = "School"

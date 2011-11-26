@@ -24,4 +24,6 @@ urlpatterns = patterns('',
     # Example:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
+    (r'^messages/', include('Goalfish.django_messages.urls')),
+    (r'^notifications/', include('Goalfish.notification.urls')),
 )

@@ -33,6 +33,7 @@ class SMARTGoal(models.Model):
     reward = models.ForeignKey(Reward, help_text="A Reward for this Goal")
     active = models.BooleanField(default=True)
     complete = models.BooleanField()
+    verified = models.BooleanField()
     
     def is_active(self):
         return self.active
@@ -40,8 +41,15 @@ class SMARTGoal(models.Model):
     def is_complete(self):
         return self.complete
     
+    def is_verified(self):
+        return self.verified
+    
     def __unicode__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "SMART Goal"
+        verbose_name_plural = "SMART Goals"
     
 class TeacherAcademicGoal(models.Model):
 
@@ -56,6 +64,10 @@ class TeacherAcademicGoal(models.Model):
         
     def __unicode__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Teacher Initiated Goal"
+        verbose_name_plural = "Teacher Initiated Goals"
     
 class AutoGoal(models.Model):
     
@@ -79,3 +91,7 @@ class AutoGoal(models.Model):
 
     def __unicode__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = "Automated Goal"
+        verbose_name_plural = "Automated Goals"
