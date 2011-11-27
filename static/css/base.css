@@ -1,3 +1,72 @@
 html,body{height:100%;}
-body{font-size:14px;font-weight:200;line-height:24px;color:white;background:url(bg.gif) repeat;}
-body,strong,em,b,i{font-family:"HelveticaNeue-Light","Helvetica Neue",Helvetica,Arial,sans-serif;}
+body{
+	font-size:14px;
+	font-weight:200;
+	line-height:24px;
+	/* color:white */;
+	background:url(../images/bg.png) repeat-x; 
+}
+
+body,strong,em,b,i{
+	font-family:"HelveticaNeue-Light","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#menu {
+	text-align: right;
+	line-height: 100px;
+	width: 100%;
+	clear: both;
+	color: #888;
+}
+
+#menu A:link { text-decoration: none; color: #888; }
+#menu A:active { text-decoration:none; color: #888;}
+#menu A:visited { text-decoration:none; color: #888;}
+#menu A:hover { text-decoration: underline; color: #888;}
+
+#wrapper {
+	margin: 20px auto;
+	width: 1200px;
+}
+
+#content {
+	padding: 30px;
+	margin: 0px auto;
+	width: 800px;
+	background-color: #eee;
+	border: 1px solid #ccc;
+}
+
+#sidebar {
+	float: left;
+}
+
+#sidebar A:link { text-decoration: none; }
+#sidebar A:active { text-decoration:none; }
+#sidebar A:visited { text-decoration:none; }
+#sidebar A:hover { text-decoration: underline; }
+
+#sidebar ul {
+	list-style: none;
+}
+
+#credits {
+	margin: 20px auto;
+	width: 800px;
+	text-align: center;
+	color: #999;
+}
+
+#credits A:link { text-decoration: none; color: #666; }
+#credits A:active { text-decoration:none; color: #666; }
+#credits A:visited { text-decoration:none; color: #666;}
+#credits A:hover { text-decoration: underline; color: #666; }
+
+/* Mail Inbox CSS */
+
+#inbox {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+/* End Mail Inbox CSS */

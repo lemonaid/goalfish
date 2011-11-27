@@ -17,13 +17,6 @@ along with Goalfish.es.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.conf.urls.defaults import *
 
-from django.contrib import admin
-admin.autodiscover()
-
-urlpatterns = patterns('',
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
-    (r'^messages/', include('Goalfish.django_messages.urls')),
-    (r'^notifications/', include('Goalfish.notification.urls')),
-	(r'^$', include('Goalfish.fishes.urls')),
+urlpatterns = patterns('Goalfish.fishes.views',
+	(r'^$', 'index'),
 )
