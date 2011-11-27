@@ -45,6 +45,10 @@ class Student(User):
     def __unicode__(self):
         return self.username
     
+    def is_student(self):
+        """returns True because this is a Student object"""
+        return True
+    
     def formatted_mailing(self):
         """Provides a properly formatted mailing address"""
         
@@ -128,6 +132,10 @@ class Teacher(User):
     is_superuser = False
     is_staff = False
 
+    def is_teacher(self):
+        """returns True because this is a Teacher object"""
+        return True
+
     def has_valid_email(self):
         '''
         returns whether or not a teacher has a valid email address
@@ -184,6 +192,10 @@ class Sponsor(User):
     is_superuser = False
     is_staff = False
 
+    def is_sponsor(self):
+        """returns True because this is a Sponsor object"""
+        return True
+
     def __unicode__(self):
         return self.company_name
 
@@ -236,6 +248,10 @@ class Mentor(User):
 
     objects = UserManager()
 
+    def is_mentor(self):
+        """returns True because this is a Mentor object"""
+        return True
+
     is_superuser = False
     is_staff = False
     
@@ -282,6 +298,10 @@ class Parent(User):
     sms = PhoneNumberField(blank=True, unique=True, help_text="Your SMS number to Receive Text Messages (Optional)")
     website = models.URLField(blank=True, help_text="Your Website (Optional)")    
     notes = models.TextField(blank=True, help_text="Optional Notes or a Description for Yourself")
+
+    def is_parent(self):
+        """returns True because this is a Parent object"""
+        return True
 
     objects = UserManager()
 
