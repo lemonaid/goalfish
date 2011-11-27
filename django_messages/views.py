@@ -9,14 +9,14 @@ from django.utils.translation import ugettext_noop
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from django_messages.models import Message
-from django_messages.forms import ComposeForm
-from django_messages.utils import format_quote
+from Goalfish.django_messages.models import Message
+from Goalfish.django_messages.forms import ComposeForm
+from Goalfish.django_messages.utils import format_quote
 
-if "notification" in settings.INSTALLED_APPS:
-    from notification import models as notification
-else:
-    notification = None
+#if "notification" in settings.INSTALLED_APPS:
+from Goalfish.notification import models as notification
+#else:
+#    notification = None
 
 def inbox(request, template_name='django_messages/inbox.html'):
     """

@@ -1,3 +1,4 @@
+django.wsgi
 django_extensions/
 avatars/*
 *.sql

@@ -97,5 +97,5 @@ def inbox_count_for(user):
 
 # fallback for email notification if django-notification could not be found
 if "notification" not in settings.INSTALLED_APPS:
-    from django_messages.utils import new_message_email
+    from Goalfish.django_messages.utils import new_message_email
     signals.post_save.connect(new_message_email, sender=Message)

@@ -85,7 +85,7 @@ MEDIA_URL = 'http://goalfish.es/media'
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 STATIC_URL = '/static'

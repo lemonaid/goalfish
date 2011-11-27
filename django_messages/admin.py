@@ -9,7 +9,7 @@ if "Goalfish.notification" in settings.INSTALLED_APPS:
 else:
     notification = None
     
-from django_messages.models import Message
+from Goalfish.django_messages.models import Message
 
 class MessageAdminForm(forms.ModelForm):
     """
