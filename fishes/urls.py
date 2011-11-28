@@ -19,4 +19,5 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('Goalfish.fishes.views',
 	(r'^$', 'index'),
+	(r'^/logout/', 'logout'),
 )

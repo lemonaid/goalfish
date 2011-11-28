@@ -25,5 +25,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^messages/', include('Goalfish.django_messages.urls')),
     (r'^notifications/', include('Goalfish.notification.urls')),
-	(r'^$', include('Goalfish.fishes.urls')),
+	(r'^$', 'Goalfish.fishes.views.index'),
+	(r'^logout/$', 'Goalfish.fishes.views.logout', {'template_name': 'logout.html'}),
+	(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}),
 )

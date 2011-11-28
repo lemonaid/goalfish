@@ -37,6 +37,11 @@ body,strong,em,b,i{
 	border: 1px solid #ccc;
 }
 
+#content input {
+	border: 1px solid #ccc;
+	padding: 3px;
+}
+
 #sidebar {
 	float: left;
 }
