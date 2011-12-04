@@ -4,28 +4,42 @@
 {% block extra-head %}{% endblock %}
 <title>{% block title %}{% endblock %} | by Goalfish</title>
 <link type="text/css" rel="stylesheet" href="/static/css/base.css"/>
+<link type="text/css" rel="stylesheet" href="/static/css/jquery.fancybox-1.3.4.css"/>
 <script type="text/javascript" src="/static/js/jquery-1.6.4.js"></script>
 <script type="text/javascript" src="/static/js/jquery.corner.js"></script>
 <script type="text/javascript" src="/static/js/jquery.form.js"></script>
 <script type="text/javascript" src="/static/js/pshadow.js"></script>
+<script type="text/javascript" src="/static/js/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="/static/js/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="/static/js/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript" src="/static/js/jquery.easing-1.3.pack.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$('#content').corner();
-	$('#content').pShadow({
-			type: 'corners',
-			strength: 2,
-	});
+{% block jquery_ready %}{% endblock %}
+$("a#login_tag").fancybox({
+    'transitionIn'      : 'fade',
+    'transitionOut'     : 'fade',
+})
+$("a#about_tag").fancybox({
+    'transitionIn' 		: 'fade',
+    'transitionOut' 	: 'fade',
+	'hideOnContentClick': 'true',
+	'autoDimensions'	: false,
+	'width'         	: 600,
+	'height'        	: 'auto',
+})
  });
 </script>
 </head>
 <body>
+<div id="top_bar">
 <div id="menu">
 {% block extra_menu %}{% endblock %}
 {% if user.is_authenticated %}
 <strong>Welcome, {{ user.username }}</strong>&nbsp;&nbsp;&nbsp;
-<a href="/logout/">Logout</a>
+<a href="/logout/?&height=220&width=400" class="thickbox" title="Logging You Out">Logout</a>
 {% else %}
-<a href="#" onClick="window.location='/accounts/login?next=' + location.pathname">Login</a>
+<a id="login_tag" href="#login" title="Please Log In to Goalfish">Login</a>
 {% endif %}
 {% if user.is_superuser %}
  | <a href="/admin">Admin</a>
@@ -34,7 +48,8 @@ $(document).ready(function(){
  | <a href="/students/{{ user.id }}/">My Profile</a>
  | <a href="/schools/{{ user.school.id }}/">{{ user.school }}</a>
 {% endif %}
- | <a href="/about">About</a>
+ | <a id="about_tag" href="#about" title="About Goalfish">About</a>
+</div>
 </div>
 <div id="wrapper">
 <div id="sidebar">
@@ -42,12 +57,38 @@ $(document).ready(function(){
 </div>
 <div id="content">
 {% block content %}{% endblock %}
-{{ user.favorite_subject }} -- is_student
 </div>
 <div id="credits">
                 All software released under <a href="http://www.gnu.org/licenses/gpl-3.0.html">GPLv3</a>. 
                 All information property of <a href="http://www.lemonaidstand.net">The LemonaidStand, LLC</a>
 </div>
 </div>
+<div style="display:none">
+<div id="about">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ligula metus, ornare nec facilisis sit amet, porttitor et dolor. Vestibulum dapibus vehicula est vel euismod. Nam non metus metus. Quisque sem quam, adipiscing id consequat a, vulputate vitae leo. Quisque volutpat arcu at elit gravida nec sodales leo sagittis. Morbi convallis arcu est, et commodo felis. Morbi sit amet ante odio.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ligula metus, ornare nec facilisis sit amet, porttitor et dolor. Vestibulum dapibus vehicula est vel euismod. Nam non metus metus. Quisque sem quam, adipiscing id consequat a, vulputate vitae leo. Quisque volutpat arcu at elit gravida nec sodales leo sagittis. Morbi convallis arcu est, et commodo felis. Morbi sit amet ante odio.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ligula metus, ornare nec facilisis sit amet, porttitor et dolor. Vestibulum dapibus vehicula est vel euismod. Nam non metus metus. Quisque sem quam, adipiscing id consequat a, vulputate vitae leo. Quisque volutpat arcu at elit gravida nec sodales leo sagittis. Morbi convallis arcu est, et commodo felis. Morbi sit amet ante odio.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ligula metus, ornare nec facilisis sit amet, porttitor et dolor. Vestibulum dapibus vehicula est vel euismod. Nam non metus metus. Quisque sem quam, adipiscing id consequat a, vulputate vitae leo. Quisque volutpat arcu at elit gravida nec sodales leo sagittis. Morbi convallis arcu est, et commodo felis. Morbi sit amet ante odio.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ligula metus, ornare nec facilisis sit amet, porttitor et dolor. Vestibulum dapibus vehicula est vel euismod. Nam non metus metus. Quisque sem quam, adipiscing id consequat a, vulputate vitae leo. Quisque volutpat arcu at elit gravida nec sodales leo sagittis. Morbi convallis arcu est, et commodo felis. Morbi sit amet ante odio.</p>
+</div>
+<div id="login">
+<form method="post" action="{% url django.contrib.auth.views.login %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td><label for="id_username">Username</label></td>
+    <td><input id="id_username" type="text" name="username" maxlength="30" /></td>
+</tr>
+<tr>
+    <td><label for="id_password">Password</label></td>
+    <td><input type="password" name="password" id="id_password" /></td>
+</tr>
+</table>
+
+<p><input type="submit" value="login" /></p>
+<input type="hidden" name="next" value="{{ next }}" />
+</div>
+</div>
+
 </body>
 </html>

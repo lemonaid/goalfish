@@ -1,4 +1,32 @@
 {% extends "base.html" %}
+
+{% block jquery_ready %} 
+    $('#main_content').corner();
+    $('#alert1').corner();
+    $('#alert2').corner();
+    $('#alert3').corner();
+    $('.shadowed').pShadow();
+
+	$("a#student_tag").click(function() {
+		$.fancybox({
+			'padding'		: 0,
+			'autoScale'		: false,
+			'transitionIn'	: 'none',
+			'transitionOut'	: 'none',
+			'title'			: this.title,
+			'width'		: 680,
+			'height'		: 495,
+			'href'			: this.href.replace(new RegExp("watch\\?v=", "i"), 'v/'),
+			'type'			: 'swf',
+			'swf'			: {
+			   	 'wmode'		: 'transparent',
+				'allowfullscreen'	: 'true'
+			}
+		});
+
+		return false;
+	});
+{% endblock %}
 {% block title %}Welcome {% endblock %}
 
 {% block extra_menu %}
@@ -6,17 +34,35 @@
 
 {% block content %}  
 
-<h1>Welcome to Goalfish</h1>
+<h1 class="base">Welcome to Goalfish</h1>
+<div class="shadowed" id="alert1" title="Random Movie To Show Conect">
+<h3>Student?</h3>
+<p>Want some more information?<br/><a id="student_tag" title="Random Move to Illustrate" href="http://www.youtube.com/watch?v=071KqJu7WVo&amp;feature=player_embedded#at=41">Click Here.</a>
+</p>
+</div>
+<div class="shadowed" id="alert2">
+<h3>Teacher?</h3>
+<p>Want to get involved?<br/>Click Here.</p>
 
+</div>
+<div class="shadowed" id="alert3">
+<h3>Community Member</h3>
+<p>Want to help your local school?<br/>Click Here.</p>
+</div>
+<div class="shadowed" id="main_content">
 <h3>What is Goalfish?</h3>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ligula metus, ornare nec facilisis sit amet, porttitor et dolor. Vestibulum dapibus vehicula est vel euismod. Nam non metus metus. Quisque sem quam, adipiscing id consequat a, vulputate vitae leo. Quisque volutpat arcu at elit gravida nec sodales leo sagittis. Morbi convallis arcu est, et commodo felis. Morbi sit amet ante odio.</p>
 
-<h3>How do I Join?</h3>
-<p>Morbi suscipit posuere tortor, et adipiscing ante eleifend at. Sed ac dignissim tellus. Nunc interdum tristique lectus sit amet congue. Morbi sapien erat, tempor quis adipiscing ac, semper at ligula. Proin eleifend nisi eu mauris tempor nec semper nisl consectetur. Aenean at magna lectus. Nam auctor ligula vel eros tincidunt quis malesuada dui lacinia. Sed semper luctus augue, ac lobortis arcu ullamcorper et. Aenean a quam vitae lectus tempor dignissim a nec sapien. Maecenas euismod tristique dolor in aliquet. Sed vehicula pharetra facilisis. Donec hendrerit nulla ut nulla elementum interdum. Duis euismod aliquet vulputate. Fusce sit amet massa est.</p>
-
 <h3>What Color are my Socks?</h3>
-<p>Nam cursus arcu quis tellus iaculis non feugiat nisi bibendum. Morbi eu nisi mauris. Vivamus eros augue, consectetur at posuere sed, aliquet mollis magna. Morbi pharetra imperdiet arcu, ac rhoncus mi venenatis id. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus viverra arcu, vitae eleifend urna lacinia quis. Nullam at fringilla lorem. Ut sit amet augue eget tortor condimentum tincidunt eu volutpat felis. Praesent ac tortor ligula, vel ornare dui.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus viverra arcu, vitae eleifend urna lacinia quis. Nullam at fringilla lorem. Ut sit amet augue eget tortor condimentum tincidunt eu volutpat felis. Praesent ac tortor ligula, vel ornare dui.</p>
+{% if user.is_student %}
+<b>STUDENT</b>
+{% endif %}
+{% if user.is_superuser %}
+<b>SUPERUSER</b>
+{% endif %}
 
+</div>
 {% endblock %}
 {% block sidebar %}
 {% endblock %}

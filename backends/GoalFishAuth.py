@@ -8,27 +8,27 @@ from django.db.models import get_model
 class MultiModelBackend(ModelBackend):
     def authenticate(self, username=None, password=None):
         try:
-            user = self.student_class.objects.get(username=username)
+            user = Goalfish.fishes.Student.objects.get(username=username)
             if user.check_password(password):
                 return user
         except:
             try:
-                user = self.teacher_class.objects.get(username=username)
+                user = Goalfish.fishes.Teacher.objects.get(username=username)
                 if user.check_password(password):
                     return user
             except:
                 try:
-                    user = self.parent_class.objects.get(username=username)
+                    user = Goalfish.fishes.Parent.objects.get(username=username)
                     if user.check_password(password):
                         return user
                 except:
                     try:
-                        user = self.mentor_class.objects.get(username=username)
+                        user = Goalfish.fishes.Mentor.objects.get(username=username)
                         if user.check_password(password):
                             return user
                     except:
                         try:                                            
-                            user = self.sponsor_class.objects.get(username=username)
+                            user = Goalfish.fishes.Sponsor.objects.get(username=username)
                             if user.check_password(password):
                                 return user
                         except:
@@ -36,9 +36,8 @@ class MultiModelBackend(ModelBackend):
                                 user = User.objects.get(username=username)
                                 if user.check_password(password):
                                     return user
-                            except User.DoesNotExist:
-                                return None
-
+                            except User.DoesNotExist:					
+    	                        return None
     def get_user(self, user_id):
         try:
             return self.student_class.objects.get(pk=user_id)
