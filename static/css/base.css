@@ -3,9 +3,7 @@ body{
 	font-size:14px;
 	font-weight:200;
 	line-height:24px;
-	/* color:white */;
 	margin: 0;
-	background:url(../images/bg_stripe.png)
 }
 
 body,strong,em,b,i{
@@ -28,7 +26,7 @@ body,strong,em,b,i{
 	text-align: right;
 	font-size: 20px;
 	clear: both;
-	width: 600px;
+	width: 800px;
 	float: right;
 	margin-right: 50px;
 }
